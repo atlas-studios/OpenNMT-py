@@ -304,6 +304,7 @@ class ServerModel(object):
         self.postprocess_opt = postprocess_opt
         self.timeout = timeout
         self.on_timeout = on_timeout
+        self.opt = {'n_best':1, 'cuda':True}
 
         self.ct2_model = os.path.join(self.model_root, self.ct2_model_name) \
             if self.ct2_model_name is not None else DEFAULT_MODEL_NAME
