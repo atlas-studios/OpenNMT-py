@@ -100,7 +100,7 @@ def start(url_root="./translator",
             out['status'] = STATUS_ERROR
         if debug:
             logger.info(out)
-        return jsonify(out)
+        return jsonify(trans)
 
     @app.route('/to_cpu/<int:model_id>', methods=['GET'])
     def to_cpu(model_id):
