@@ -33,7 +33,7 @@ def start(url_root="./translator",
     app = Flask(__name__)
     app.route = prefix_route(app.route, url_root)
     translation_server = TranslationServer()
-    translation_server.start(config_file)
+    translation_server.start()
 
     @app.route('/models', methods=['GET'])
     def get_models():
