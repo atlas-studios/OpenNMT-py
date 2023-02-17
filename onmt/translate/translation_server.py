@@ -315,9 +315,7 @@ class ServerModel(object):
         self.loading_lock = threading.Event()
         self.loading_lock.set()
         self.running_lock = threading.Semaphore(value=1)
-
-        set_random_seed(self.opt.seed, self.opt.cuda)
-
+        
         if load:
             self.load(preload=True)
             self.stop_unload_timer()
