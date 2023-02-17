@@ -11,8 +11,7 @@ STATUS_OK = "ok"
 STATUS_ERROR = "error"
 
 
-def start(config_file,
-          url_root="./translator",
+def start(url_root="./translator",
           host="0.0.0.0",
           port=5000,
           debug=False):
