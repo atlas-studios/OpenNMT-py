@@ -429,9 +429,7 @@ translation time: {timer.times['translation']}""" )
             db.close()
         except Exception as e:
             print("Could not delete translator", e)
-
-        if self.opt['cuda']:
-            torch.cuda.empty_cache()
+       
         self.stop_unload_timer()
         self.unload_timer = None
         print(f"Model {self.model_id} fully unloaded")
