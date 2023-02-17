@@ -48,8 +48,6 @@ NUM_HYPOTHESES = int(os.getenv("NUM_HYPOTHESES"))
 MODEL_PATH = os.getenv("MODEL_PATH")
 DEVICE_NUMBER = int(os.getenv("DEVICE_NUMBER"))
 DISABLE_UNK = bool(os.getenv("DISABLE_UNK"))
-NO_REPEAT_NGRAM = int(os.getenv("NO_REPEAT_NGRAM"))
-
 
 def critical(func):
     """Decorator for critical section (mutually exclusive code)"""
