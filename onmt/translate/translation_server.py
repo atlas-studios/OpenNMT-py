@@ -234,20 +234,19 @@ class TranslationServer(object):
 
     def run(self, inputs):
         """Translate `inputs`
-
         We keep the same format as the Lua version i.e.
         ``[{"id": model_id, "src": "sequence to translate"},{ ...}]``
-
         We use inputs[0]["id"] as the model id
         """
-
         model_id = inputs[0].get("id", 0)
         text = [x["src"] for x in inputs]
-        if model_id in self.models and self.models[model_id] is not None:
+        if model_id in self.models:
             return self.models[model_id].run(text)
         else:
-            print("Error No such model '%s'" % str(model_id))
-            raise ServerModelError("No such model '%s'" % str(model_id))
+            print(f"Initiating model {model_id}")
+            model = ServerModel(model_id=model_id)
+            self.models[model_id] = model
+            return self.models[model_id].run(text)
 
     def unload_model(self, model_id):
         """Manually unload a model.
