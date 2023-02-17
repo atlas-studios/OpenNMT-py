@@ -89,18 +89,7 @@ def start(url_root="./translator",
             logger.info(inputs)
         out = {}
         try:
-            trans, scores, n_best, _, aligns = translation_server.run(inputs)
-            assert len(trans) == len(inputs) * n_best
-            assert len(scores) == len(inputs) * n_best
-            assert len(aligns) == len(inputs) * n_best
-
-            out = [[] for _ in range(n_best)]
-            for i in range(len(trans)):
-                response = {"src": inputs[i // n_best]['src'], "tgt": trans[i],
-                            "n_best": n_best, "pred_score": scores[i]}
-                if len(aligns[i]) > 0 and aligns[i][0] is not None:
-                    response["align"] = aligns[i]
-                out[i % n_best].append(response)
+            trans, _ = translation_server.run(inputs)
         except ServerModelError as e:
             model_id = inputs[0].get("id")
             if debug:
