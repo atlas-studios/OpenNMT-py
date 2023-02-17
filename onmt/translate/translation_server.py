@@ -327,7 +327,7 @@ class ServerModel(object):
         self.loading_lock.clear()
 
         timer = Timer()
-        self.logger.info("Loading model %d" % self.model_id)
+        print(f"Loading model {self.model_id}")
         timer.start()
 
         try:
@@ -361,10 +361,10 @@ class ServerModel(object):
         timer = Timer()
         timer.start()
 
-        self.logger.info(f"Running translation {self.ct2_model_name}")
+        print(f"Running translation {self.ct2_model_name}")
 
         if not self.loading_lock.is_set():
-            self.logger.info(f"Model #{self.ct2_model_name} is being loaded by another thread, waiting")
+            print(f"Model #{self.ct2_model_name} is being loaded by another thread, waiting")
             if not self.loading_lock.wait(timeout=30):
                 raise ServerModelError(f"Model {self.ct2_model_name} loading timeout")
 
@@ -396,8 +396,8 @@ class ServerModel(object):
                 raise ServerModelError(err)
 
         timer.tick(name="translation")
-        self.logger.info(f"""Using model #{self.ct2_model_name} {len(inputs)} inputs
-translation time: {timer.times['translation']}""")
+        print(f"""Using model #{self.ct2_model_name} {len(inputs)} inputs
+translation time: {timer.times['translation']}""" )
         self.reset_unload_timer()
 
         return predictions, timer.times
@@ -411,11 +411,10 @@ translation time: {timer.times['translation']}""")
         """
 
         if self.on_timeout == "unload":
-            self.logger.info("Timeout: unloading model %d" % self.model_id)
+            print(f"Timeout: unloading model {self.model_id}")
             self.unload()
         if self.on_timeout == "to_cpu":
-            self.logger.info("Timeout: sending model %d to CPU"
-                             % self.model_id)
+            print(f"Timeout: sending model {self.model_id} to CPU")
             self.to_cpu()
 
     @critical
