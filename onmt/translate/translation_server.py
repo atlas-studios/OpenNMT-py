@@ -365,14 +365,14 @@ class ServerModel(object):
 
         if not self.loading_lock.is_set():
             print(f"Model #{self.ct2_model_name} is being loaded by another thread, waiting")
-            if not self.loading_lock.wait(timeout=30):
+            if not self.loading_lock.wait(timeout=TIMEOUT):
                 raise ServerModelError(f"Model {self.ct2_model_name} loading timeout")
 
         else:
             if not self.loaded:
                 self.load()
                 timer.tick(name="load")
-            elif self.opt.cuda:
+            elif self.opt['cuda']:
                 self.to_gpu()
                 timer.tick(name="to_gpu")
 
@@ -430,6 +430,8 @@ translation time: {timer.times['translation']}""" )
         except Exception as e:
             print("Could not delete translator", e)
        
+        if self.opt['cuda']:
+            torch.cuda.empty_cache()
         self.stop_unload_timer()
         self.unload_timer = None
         print(f"Model {self.model_id} fully unloaded")
@@ -466,7 +468,7 @@ translation time: {timer.times['translation']}""" )
             self.translator.to_cpu()
         else:
             self.translator.model.cpu()
-            if self.opt.cuda:
+            if self.opt['cuda']:
                 torch.cuda.empty_cache()
 
     def to_gpu(self):
