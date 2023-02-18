@@ -108,7 +108,7 @@ class CTranslate2Translator(object):
     def __init__(self, model_path, target_prefix=False, preload=True):
         import ctranslate2
         try:
-            self.translator = ctranslate2.Translator(model_path, "cuda", device_index=DEVICE_NUMBER)
+              self.translator = ctranslate2.Translator(model_path, "cuda", device_index=DEVICE_NUMBER)
         except:
             print(f"Error loading model; using default model {DEFAULT_MODEL_NAME}")
             self.translator = ctranslate2.Translator(MODEL_PATH+DEFAULT_MODEL_NAME, "cuda", device_index=DEVICE_NUMBER)
@@ -412,8 +412,9 @@ translation time: {timer.times['translation']}""" )
         """
 
         if self.on_timeout == "unload":
-            print(f"Timeout: unloading model {self.model_id}")
-            self.unload()
+            if self.model_id != DEFAULT_MODEL:
+                print(f"Timeout: unloading model {self.model_id}")
+                self.unload()
         if self.on_timeout == "to_cpu":
             print(f"Timeout: sending model {self.model_id} to CPU")
             self.to_cpu()
