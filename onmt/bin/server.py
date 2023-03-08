@@ -87,7 +87,7 @@ def start(url_root="./translator",
         inputs = request.get_json(force=True)
         if debug:
             logger.info(inputs)
-        out = {}
+        trans = {}
         try:
             trans, _ = translation_server.run(inputs)
         except ServerModelError as e:
@@ -96,10 +96,10 @@ def start(url_root="./translator",
                 logger.warning("Unload model #{} "
                                "because of an error".format(model_id))
             translation_server.models[model_id].unload()
-            out['error'] = str(e)
-            out['status'] = STATUS_ERROR
+            trans['error'] = str(e)
+            trans['status'] = STATUS_ERROR
         if debug:
-            logger.info(out)
+            logger.info(trans)
         return jsonify(trans)
 
     @app.route('/to_cpu/<int:model_id>', methods=['GET'])
