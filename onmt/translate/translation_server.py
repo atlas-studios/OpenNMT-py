@@ -108,7 +108,7 @@ class CTranslate2Translator(object):
     def __init__(self, model_path, target_prefix=False, preload=True):
         import ctranslate2
         try:
-              self.translator = ctranslate2.Translator(model_path, "cuda", device_index=DEVICE_NUMBER)
+            self.translator = ctranslate2.Translator(model_path, "cuda", device_index=DEVICE_NUMBER)
         except:
             print(f"Error loading model; using default model {DEFAULT_MODEL_NAME}")
             self.translator = ctranslate2.Translator(MODEL_PATH+DEFAULT_MODEL_NAME, "cuda", device_index=DEVICE_NUMBER)
